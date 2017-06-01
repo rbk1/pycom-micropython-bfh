@@ -76,7 +76,12 @@ typedef struct _machine_i2c_obj_t {
 
 #define PYBI2C_MASTER                          (0)
 
+// @RBK1
+#if defined(BFH_SM)
+STATIC const mp_obj_t mach_i2c_def_pin[2] = {&PIN_MODULE_P2, &PIN_MODULE_P3};
+#else
 STATIC const mp_obj_t mach_i2c_def_pin[2] = {&PIN_MODULE_P9, &PIN_MODULE_P10};
+#endif
 
 STATIC void mp_hal_i2c_delay(machine_i2c_obj_t *self) {
     // We need to use an accurate delay to get acceptable I2C
