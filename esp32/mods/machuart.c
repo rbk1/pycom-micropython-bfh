@@ -95,6 +95,16 @@ struct _mach_uart_obj_t {
 /******************************************************************************
  DECLARE PRIVATE DATA
  ******************************************************************************/
+#if defined(BFH_SM)
+
+static mach_uart_obj_t mach_uart_obj[MACH_NUM_UARTS];
+static const mp_obj_t mach_uart_def_pin[MACH_NUM_UARTS][2] = { {&PIN_MODULE_P1,  &PIN_MODULE_P0},
+                                                               {&PIN_MODULE_P10,  &PIN_MODULE_P11} };
+
+static const uint32_t mach_uart_pin_af[MACH_NUM_UARTS][4] = { { U0TXD_OUT_IDX, U0RXD_IN_IDX, U0RTS_OUT_IDX, U0CTS_IN_IDX},
+                                                              { U1TXD_OUT_IDX, U1RXD_IN_IDX, U1RTS_OUT_IDX, U1CTS_IN_IDX} };
+
+#else
 static mach_uart_obj_t mach_uart_obj[MACH_NUM_UARTS];
 static const mp_obj_t mach_uart_def_pin[MACH_NUM_UARTS][2] = { {&PIN_MODULE_P1,  &PIN_MODULE_P0},
                                                                {&PIN_MODULE_P3,  &PIN_MODULE_P4},
@@ -103,7 +113,7 @@ static const mp_obj_t mach_uart_def_pin[MACH_NUM_UARTS][2] = { {&PIN_MODULE_P1, 
 static const uint32_t mach_uart_pin_af[MACH_NUM_UARTS][4] = { { U0TXD_OUT_IDX, U0RXD_IN_IDX, U0RTS_OUT_IDX, U0CTS_IN_IDX},
                                                               { U1TXD_OUT_IDX, U1RXD_IN_IDX, U1RTS_OUT_IDX, U1CTS_IN_IDX},
                                                               { U2TXD_OUT_IDX, U2RXD_IN_IDX, U2RTS_OUT_IDX, U2CTS_IN_IDX} };
-
+#endif
 /******************************************************************************
  DEFINE PUBLIC FUNCTIONS
  ******************************************************************************/
@@ -489,10 +499,15 @@ STATIC mp_obj_t mach_uart_make_new(const mp_obj_type_t *type, mp_uint_t n_args, 
 
     // work out the uart id
     uint uart_id = mp_obj_get_int(args[0].u_obj);
-
+    #if defined(BFH_SM)
+    if (uart_id > MACH_UART_1) {
+        nlr_raise(mp_obj_new_exception_msg(&mp_type_OSError, mpexception_os_resource_not_avaliable));
+    }
+    #else
     if (uart_id > MACH_UART_2) {
         nlr_raise(mp_obj_new_exception_msg(&mp_type_OSError, mpexception_os_resource_not_avaliable));
     }
+    #endif
 
     // get the correct uart instance
     mach_uart_obj_t *self = &mach_uart_obj[uart_id];

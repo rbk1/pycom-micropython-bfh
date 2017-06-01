@@ -10,13 +10,20 @@
 #ifndef MACHUART_H_
 #define MACHUART_H_
 
+#if defined(BFH_SM)
+typedef enum {
+    MACH_UART_0      =  0,
+    MACH_UART_1      =  1,
+    MACH_NUM_UARTS
+} mach_uart_id_t;
+#else
 typedef enum {
     MACH_UART_0      =  0,
     MACH_UART_1      =  1,
     MACH_UART_2      =  2,
     MACH_NUM_UARTS
 } mach_uart_id_t;
-
+#endif
 typedef struct _mach_uart_obj_t mach_uart_obj_t;
 extern const mp_obj_type_t mach_uart_type;
 

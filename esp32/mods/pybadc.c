@@ -62,6 +62,13 @@ typedef struct {
 /******************************************************************************
  DECLARE PRIVATE DATA
  ******************************************************************************/
+
+#if defined(BFH_SM)
+
+STATIC pyb_adc_channel_obj_t pyb_adc_channel_obj[PYB_ADC_NUM_CHANNELS] = { {.pin = &PIN_MODULE_P12, .channel = ADC1_CHANNEL_0, .enabled = false} };
+STATIC pyb_adc_obj_t pyb_adc_obj = {.enabled = false};
+
+#else
 STATIC pyb_adc_channel_obj_t pyb_adc_channel_obj[PYB_ADC_NUM_CHANNELS] = { {.pin = &PIN_MODULE_P13, .channel = ADC1_CHANNEL_0, .enabled = false},
                                                                            {.pin = &PIN_MODULE_P14, .channel = ADC1_CHANNEL_1, .enabled = false},
                                                                            {.pin = &PIN_MODULE_P15, .channel = ADC1_CHANNEL_2, .enabled = false},
@@ -71,6 +78,7 @@ STATIC pyb_adc_channel_obj_t pyb_adc_channel_obj[PYB_ADC_NUM_CHANNELS] = { {.pin
                                                                            {.pin = &PIN_MODULE_P19, .channel = ADC1_CHANNEL_6, .enabled = false},
                                                                            {.pin = &PIN_MODULE_P20, .channel = ADC1_CHANNEL_7, .enabled = false} };
 STATIC pyb_adc_obj_t pyb_adc_obj = {.enabled = false};
+#endif
 
 STATIC const mp_obj_type_t pyb_adc_channel_type;
 

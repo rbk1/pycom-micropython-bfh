@@ -136,7 +136,8 @@ void TASK_Micropython (void *pvParameters) {
         for ( ; ; );
     }
 
-    alarm_preinit();
+    // #RBK1
+    //alarm_preinit();
     pin_preinit();
 
 soft_reset:
@@ -172,11 +173,11 @@ soft_reset:
     modbt_init0();
     machtimer_init0();
     bool safeboot = false;
-    boot_info_t boot_info;
+    /*boot_info_t boot_info;
     uint32_t boot_info_offset;
     if (updater_read_boot_info (&boot_info, &boot_info_offset)) {
         safeboot = boot_info.safeboot;
-    }
+    }*/
     if (!soft_reset) {
         mptask_enter_ap_mode();
         // these ones are special because they need uPy running and they launch tasks

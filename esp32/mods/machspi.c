@@ -61,7 +61,12 @@ typedef struct _mach_spi_obj_t {
  ******************************************************************************/
 STATIC mach_spi_obj_t mach_spi_obj = {.baudrate = 0};
 
+// @RBK1
+#if defined(BFH_SM)
+STATIC const mp_obj_t mach_spi_def_pin[3] = {&PIN_MODULE_P5, &PIN_MODULE_P6, &PIN_MODULE_P7};
+#else
 STATIC const mp_obj_t mach_spi_def_pin[3] = {&PIN_MODULE_P10, &PIN_MODULE_P11, &PIN_MODULE_P12};
+#endif
 
 static const uint32_t mach_spi_pin_af[3] = {HSPICLK_OUT_IDX, HSPID_OUT_IDX, HSPIQ_IN_IDX};
 

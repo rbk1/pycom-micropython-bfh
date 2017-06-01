@@ -82,12 +82,14 @@ void mperror_pre_init(void) {
 }
 
 void mperror_init0 (void) {
+    #if !defined(BFH_SM)
     // configure the heartbeat led pin
     pin_config(&pin_GPIO0, -1, -1, GPIO_MODE_OUTPUT, MACHPIN_PULL_NONE, 0);
     led_init(&led_info);
     mperror_heart_beat.enabled = true;
     mperror_heart_beat.do_disable = false;
     mperror_heartbeat_switch_off();
+    #endif
 }
 
 void mperror_signal_error (void) {
