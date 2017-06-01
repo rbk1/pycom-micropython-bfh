@@ -23,7 +23,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+#if defined(BFH_SM)
+typedef enum {
+    PYB_UART_NONE = 0,
+    PYB_UART_1 = 1,
+} pyb_uart_t;
+#else
 typedef enum {
     PYB_UART_NONE = 0,
     PYB_UART_1 = 1,
@@ -33,7 +38,7 @@ typedef enum {
     PYB_UART_5 = 5,
     PYB_UART_6 = 6,
 } pyb_uart_t;
-
+#endif
 typedef struct _pyb_uart_obj_t pyb_uart_obj_t;
 extern const mp_obj_type_t pyb_uart_type;
 

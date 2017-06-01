@@ -267,9 +267,11 @@ static IRAM_ATTR void uart_intr_handler(void *para) {
     if ((status = READ_PERI_REG(UART_INT_ST_REG(UART_NUM_1)))) {
         UARTGenericIntHandler(UART_NUM_1, status);
     }
+#if !defined(BFH_SM)
     if ((status = READ_PERI_REG(UART_INT_ST_REG(UART_NUM_2)))) {
         UARTGenericIntHandler(UART_NUM_2, status);
     }
+#endif
 }
 
 
